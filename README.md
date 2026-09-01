@@ -1,9 +1,11 @@
 # SmartRoute-Intelligent-College-Bus-Routing-Scheduling-System
-🚌 SmartRoute
-Intelligent College Bus Routing & Scheduling System
+🚌<b> SmartRoute
+Intelligent College Bus Routing & Scheduling System</b>
+<br>
 SmartRoute is a C++ console application that automates the allocation, scheduling, and optimization of a college's bus transportation network — matching student demand to bus capacity across routes and stops, detecting scheduling conflicts, and modeling hypothetical disruptions through a built-in What-If Simulator.
 
 📖 Overview
+<br>
 Colleges with multiple buses, routes, and hundreds of students face a recurring logistics problem: which bus should cover which route, what happens when a route's demand exceeds a single bus's capacity, and how does the schedule adapt when something changes — a bus breaks down, a stop closes, or 30 extra students show up overnight?
 
 SmartRoute solves this by modeling the problem as a set of classical data-structure and algorithm challenges — graphs, greedy allocation, priority queues, and interval scheduling — wrapped in a clean, modular C++ system.
