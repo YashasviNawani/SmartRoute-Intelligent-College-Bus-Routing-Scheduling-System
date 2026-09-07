@@ -22,17 +22,17 @@ void addBus()
     check.close();
     b.id = id;
     cout << "Enter Bus Number: ";
-    cin >> b.busNo;
+    cin >> b.registrationNo;
     cout << "Enter Driver Name: ";
     cin >> b.driverName;
     cout << "Enter Capacity: ";
-    cin >> b.cap;
-    if (b.cap <= 0)
+    cin >> b.capacity;
+    if (b.capacity <= 0)
     {
         cout << "Invalid capacity!\n";
         return;
     }
-    b.currS = 0;
+    b.currentStudents = 0;
     b.available = 1;
     ofstream file("buses.dat", ios::binary | ios::app);
     file.write((char*)&b, sizeof(b));
@@ -54,11 +54,11 @@ void displayAllBuses()
     {
         found = true;
         cout << "\nBus ID: " << b.id;
-        cout << "\nBus No: " << b.busNo;
+        cout << "\nBus No: " << b.registrationNo;
         cout << "\nDriver Name: " << b.driverName;
-        cout << "\nCapacity: " << b.cap;
-        cout << "\nCurrent Students: "<< b.currS;
-        cout << "\nRemaining Capacity: "<< b.cap - b.currS;
+        cout << "\nCapacity: " << b.capacity;
+        cout << "\nCurrent Students: "<< b.currentStudents;
+        cout << "\nRemaining Capacity: "<< b.capacity - b.currentStudents;
         cout << "\nAvailability: ";
              if(b.available)
              cout<<"Available";
@@ -113,14 +113,14 @@ void updateBus()
         {
             found = true;
             cout << "Enter new Bus Number: ";
-            cin >> b.busNo;
+            cin >> b.registrationNo;
             cout << "Enter new Driver Name: ";
             cin >> b.driverName;
             cout << "Enter new Capacity: ";
-            cin >> b.cap;
-            if (b.cap < b.currS)
+            cin >> b.capacity;
+            if (b.capacity < b.currentStudents)
             {
-                cout << "Capacity cannot be less than "<< b.currS << ".\n";
+                cout << "Capacity cannot be less than "<< b.currentStudents << ".\n";
                 file.close();
                 temp.close();
                 remove("temp.dat");
