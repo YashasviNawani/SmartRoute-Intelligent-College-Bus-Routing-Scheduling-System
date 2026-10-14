@@ -102,6 +102,8 @@ bool Allocator::addStudentToQueue(int studentID) {
     if (s->getBusStopID() == -1) return false;            // no stop chosen yet
     if (s->getAssignedRouteID() != -1) return false;      // already allocated
     if (queuedIDs.count(studentID)) return false;         // already waiting in the queue
+    // the student is being tried again, so they no longer belong on the waiting list
+    waitingList.erase(std::remove(waitingList.begin(), waitingList.end(), studentID), waitingList.end());
     allocationQueue.push(studentID);
     queuedIDs.insert(studentID);
     return true;
