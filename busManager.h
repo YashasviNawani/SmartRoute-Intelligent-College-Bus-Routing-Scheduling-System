@@ -5,10 +5,9 @@
 #include <string>
 #include "bus.h"
 
-// ---------------------------------------------------------------------------
+
 // Class: BusManager
-// Demonstrates: vector<Bus>, linear search, simple sorting, file handling
-// ---------------------------------------------------------------------------
+
 class BusManager {
 private:
     std::vector<Bus> buses;
