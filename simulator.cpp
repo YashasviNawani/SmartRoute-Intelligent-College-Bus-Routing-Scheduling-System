@@ -10,8 +10,8 @@ namespace {
 const int UNDERUSED_BELOW_PCT = 40;   // utilization under this = underutilized
 
 class CoutSilencer {
+    std::ostringstream sink;      // must be declared before 'old': members are built in this order
     std::streambuf* old;
-    std::ostringstream sink;
 public:
     CoutSilencer() : old(std::cout.rdbuf(sink.rdbuf())) {}
     ~CoutSilencer() { std::cout.rdbuf(old); }
