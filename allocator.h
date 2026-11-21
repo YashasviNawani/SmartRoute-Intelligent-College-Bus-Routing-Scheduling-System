@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include "busmanager.h"
-#include "studentmanager.h"
+#include "busManager.h"
+#include "studentManager.h"
 #include "routemanager.h"
 
 // ---------------------------------------------------------------------------
