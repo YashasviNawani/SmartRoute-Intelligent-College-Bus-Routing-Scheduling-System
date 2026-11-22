@@ -1041,44 +1041,93 @@ static void studentSession(System& sys, const User& user) {
 // Main
 // ---------------------------------------------------------------------------
 int main() {
-    System sys;
     ensureDataFolder();
 
-    try {
-        loadAll(sys);
-    } catch (const std::exception&) {
-        std::cout << "A data file looks corrupted; some saved data could not be loaded.\n";
+    // Open SQLite database
+    Database db;
+
+    if (!db.open("data/smartroute.db")) {
+        std::cout << "Database connection failed. Exiting.\n";
+        return 1;
     }
 
+    DBSync sync(db);
+
+    // Create the application system
+    System sys;
+
+    // Load buses, routes, departments and students
+    try {
+        if (!sync.loadAll(sys.bm, sys.rm, sys.sm)) {
+            std::cout << "Could not load database records.\n";
+            return 1;
+        }
+
+        // Load remaining application data
+        sys.alloc.loadFromFile();
+        loadSchedule(sys);
+        loadTrips(sys);
+
+    } catch (const std::exception& e) {
+        std::cout << "Data loading error: " << e.what() << "\n";
+        return 1;
+    }
+
+    // Load authentication data
     sys.auth.loadFromFile(USERS_FILE);
+
     bool firstRun = sys.auth.isEmpty();
+
     if (firstRun) {
         sys.auth.createDefaultAdmin();
         sys.auth.saveToFile(USERS_FILE);
+
         std::cout << "First run: an admin account was created.\n"
-                     "  Username: admin   Password: admin123\n";
+                  << "Username: admin   Password: admin123\n";
     }
 
     try {
         User user;
+
         while (login(sys, user)) {
+
             if (firstRun && user.getUsername() == "admin") {
                 forcePasswordChange(sys, "admin");
                 firstRun = false;
             }
-            if (user.getRole() == Role::STUDENT) studentSession(sys, user);
-            else staffSession(sys, user);
+
+            if (user.getRole() == Role::STUDENT)
+                studentSession(sys, user);
+            else
+                staffSession(sys, user);
+
+            // Save application data to files
             saveAll(sys);
+
+            // Save buses, routes and students to SQLite
+            if (!sync.saveAll(sys.bm, sys.rm, sys.sm)) {
+                std::cout << "[DB] Database save failed.\n";
+            }
+
             std::cout << "Logged out. Data saved.\n";
         }
+
     } catch (const InputClosed&) {
         std::cout << "\nInput closed.\n";
     }
 
+    // Final save before exit
     saveAll(sys);
+
+    if (!sync.saveAll(sys.bm, sys.rm, sys.sm)) {
+        std::cout << "[DB] Final database save failed.\n";
+    }
+
     std::cout << "Data saved. Goodbye!\n";
+
     return 0;
 }
+           
             
 
             
