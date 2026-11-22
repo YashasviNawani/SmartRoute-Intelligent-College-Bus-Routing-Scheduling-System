@@ -4,7 +4,7 @@
 #include "authmanager.h"
 #include <iostream>
 
-int main() {
+void generateUsersFile() {
     AuthManager auth;
     auth.addUser("admin",       "Admin@123",    Role::ADMIN);
     auth.addUser("transport",   "Staff@123",    Role::STAFF);
@@ -16,5 +16,5 @@ int main() {
     auth.addUser("stu1005",     "Student@1005", Role::STUDENT, 1005);
     auth.saveToFile("users.dat");
     std::cout << "users.dat written.\n";
-    return 0;
+ 
 }
