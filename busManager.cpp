@@ -5,7 +5,7 @@
 #include <iostream>
 
 int BusManager::findIndexByID(int id) const {
-    // Linear search - O(n), intentional DSA demo point for Module 1
+    // Linear search - O(n)
     for (size_t i = 0; i < buses.size(); i++) {
         if (buses[i].getID() == id) return static_cast<int>(i);
     }
